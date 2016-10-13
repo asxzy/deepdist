@@ -1,8 +1,11 @@
 import copy
-import cPickle as pickle
+try:
+    import _pickle as cPickle
+except ImportError:
+    import cPickle as pickle
 try:
     import cloudpickle as pickleDumper
-except:
+except ImportError:
     import cPickle as pickleDumper
 from multiprocessing import Process
 from rwlock import RWLock
@@ -104,7 +107,7 @@ class DeepDist:
             func()
             return 'Server shutting down...'
             
-        print 'Listening to 0.0.0.0:5000...'
+        print('Listening to 0.0.0.0:5000...')
         app.run(host='0.0.0.0', debug=True, threaded=True, use_reloader=False)
 
     def train(self, rdd, gradient, descent):
@@ -118,7 +121,7 @@ class DeepDist:
                 master = '%s:5000' % urlparse.urlparse(master).netloc.split(':')[0]
             else:
                 master = '%s:5000' % master.split(':')[0]
-        print '\n*** Master: %s\n' % master
+        print('\n*** Master: %s\n' % master)
 
         self.descent = descent
         
